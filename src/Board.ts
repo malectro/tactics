@@ -37,10 +37,28 @@ export class Board implements Sized, GameObject {
   }
 }
 
-class Cell implements GameObject {
+export class Cell implements GameObject {
   static size = 10;
   surfaces: Surface[] = [];
-  asset: Object3D = new Mesh(boxGeometry, grayMaterial);
+  asset: Mesh = new Mesh(boxGeometry, grayMaterial);
+
+  clear() {
+    this.surfaces = [];
+    const parent = this.asset.parent;
+    parent.remove(this.asset);
+    const newMesh = new Mesh(boxGeometry, grayMaterial);
+    newMesh.position = this.asset.position;
+    this.asset = newMesh;
+    parent.add(newMesh);
+  }
+
+  select() {
+    this.asset.material = selectedMaterial;
+  }
+
+  deselect() {
+    this.asset.material = grayMaterial;
+  }
 }
 
 class Surface implements GameObject {
@@ -48,5 +66,11 @@ class Surface implements GameObject {
   asset: Mesh = new Mesh(boxGeometry, grayMaterial);
 }
 
-const boxGeometry = new BoxBufferGeometry(Cell.size - 1, Cell.size - 1, Cell.size - 1);
+const boxGeometry = new BoxBufferGeometry(
+  Cell.size - 1,
+  Cell.size - 1,
+  Cell.size - 1,
+);
 const grayMaterial = new MeshBasicMaterial({color: 0x555555});
+const clearMaterial = new MeshBasicMaterial({color: 0x000000, opacity: 0.0});
+const selectedMaterial = new MeshBasicMaterial({color: 0x999999});

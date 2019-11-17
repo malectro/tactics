@@ -1,16 +1,14 @@
-import {Scene, OrthographicCamera, WebGLRenderer, Vector3} from 'three';
-import {BoxBufferGeometry, MeshBasicMaterial, Mesh, PerspectiveCamera} from 'three';
-
-import {Board} from './board';
+import {Board} from './Board';
 import {Controller} from './Controller';
 import {Renderer} from './Renderer'
 
 
 const renderer = new Renderer();
-const controller = new Controller(renderer);
-
-
 const board = new Board({x: 10, y: 10});
+
+const controller = new Controller(renderer, board);
+
+
 renderer.scene.add(board.asset);
 
 /*

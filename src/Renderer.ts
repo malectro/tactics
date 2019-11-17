@@ -45,7 +45,7 @@ export class Renderer {
     this.webglRenderer.setPixelRatio( window.devicePixelRatio );
     this.webglRenderer.setSize(window.innerWidth, window.innerHeight);
 
-    this.scene.rotation.set(Math.PI / 2 - Math.PI / 8, 0, Math.PI / 4);
+    this.scene.rotation.set(Math.PI / 8 + Math.PI / 2, 0, Math.PI / 4);
 
     //const controller = new Controller(scene);
 
