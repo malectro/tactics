@@ -4,8 +4,8 @@
   "description": "a tactical rpg engine",
   "main": "build/main.js",
   "scripts": {
-    "build": "tsc",
-    "build:dev": "tsc --watch"
+    "build": "rollup -c rollup.config.js",
+    "build:dev": "rollup -c rollup.config.js -w"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/malectro/tactics#readme",
   "devDependencies": {
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "rollup": "^1.27.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.25.2"
   },
   "dependencies": {
     "three": "^0.110.0",
