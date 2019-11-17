@@ -28,8 +28,8 @@ export class Board implements Sized, GameObject {
 
         this.asset.add(cell.asset);
         cell.asset.position.set(
-          x * Cell.size - size.x / 2,
-          y * Cell.size - size.y / 2,
+          (x - size.x / 2) * Cell.size,
+          (y - size.y / 2) * Cell.size,
           0,
         );
       }
@@ -48,5 +48,5 @@ class Surface implements GameObject {
   asset: Mesh = new Mesh(boxGeometry, grayMaterial);
 }
 
-const boxGeometry = new BoxBufferGeometry(Cell.size - 1, Cell.size, Cell.size - 1);
+const boxGeometry = new BoxBufferGeometry(Cell.size - 1, Cell.size - 1, Cell.size - 1);
 const grayMaterial = new MeshBasicMaterial({color: 0x555555});

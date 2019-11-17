@@ -7,7 +7,7 @@ export class Controller {
     this.renderer = renderer;
 
     window.addEventListener('wheel', event => {
-      this.renderer.scene.rotation.y += event.deltaX * Math.PI / 1000;
+      this.renderer.scene.rotation.z += event.deltaX * Math.PI / 1000;
       this.renderer.scene.rotation.x += event.deltaY * Math.PI / 1000;
     });
 
