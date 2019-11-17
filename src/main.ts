@@ -1,25 +1,22 @@
-import {Scene, OrthographicCamera, WebGLRenderer} from 'three';
+import {Scene, OrthographicCamera, WebGLRenderer, Vector3} from 'three';
+import {BoxBufferGeometry, MeshBasicMaterial, Mesh, PerspectiveCamera} from 'three';
 
 import {Board} from './board';
+import {Controller} from './Controller';
+import {Renderer} from './Renderer'
 
 
-const halfWidth = window.innerWidth / 2;
-const halfHeight = window.innerHeight / 2;
-
-const scene = new Scene();
-const camera = new OrthographicCamera(
-  -halfWidth,
-  halfWidth,
-  -halfHeight,
-  halfHeight,
-  1,
-  1000,
-);
-const renderer = new WebGLRenderer();
-
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+const renderer = new Renderer();
+const controller = new Controller(renderer);
 
 
-const board = new Board({x: 10, y: 10});
-scene.add(board.asset);
+//const board = new Board({x: 10, y: 10});
+//scene.add(board.asset);
+
+var geometry = new BoxBufferGeometry(100, 100, 100);
+var material = new MeshBasicMaterial({color: 0xffff00});
+var mesh = new Mesh(geometry, material);
+renderer.scene.add(mesh);
+
+document.body.appendChild(renderer.webglRenderer.domElement);
+renderer.animate();

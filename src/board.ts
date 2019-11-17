@@ -38,7 +38,7 @@ export class Board implements Sized, GameObject {
 }
 
 class Cell implements GameObject {
-  static size = 1;
+  static size = 10;
   surfaces: Surface[] = [];
   asset: Object3D = new Mesh(boxGeometry, grayMaterial);
 }
@@ -48,5 +48,5 @@ class Surface implements GameObject {
   asset: Mesh = new Mesh(boxGeometry, grayMaterial);
 }
 
-const boxGeometry = new BoxBufferGeometry(Cell.size, Cell.size, Cell.size);
+const boxGeometry = new BoxBufferGeometry(Cell.size - 1, Cell.size, Cell.size - 1);
 const grayMaterial = new MeshBasicMaterial({color: 0x555555});
