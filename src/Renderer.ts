@@ -28,12 +28,12 @@ export class Renderer {
     this.orthographicCamera.position.set(0, 0, 500);
 
     this.perspectiveCamera = new PerspectiveCamera(
-      70,
+      50,
       aspectRatio,
       1,
       10000,
     );
-    this.perspectiveCamera.position.set(0, 0, 500);
+    this.perspectiveCamera.position.set(0, 0, 100);
 
     this.cameras = [
       this.orthographicCamera,

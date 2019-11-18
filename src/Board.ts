@@ -87,10 +87,14 @@ export class Cell implements GameObject {
 export class Surface implements GameObject {
   static heightUnit = 1;
 
-  height: number = 0;
+  top: number = 0;
   asset: Mesh = new Mesh(new BoxGeometry(
     Cell.size, Cell.size, Cell.size,
   ), grayMaterial);
+
+  toJSON() {
+    
+  }
 
   select() {
     this.asset.material = selectedMaterial;
@@ -100,18 +104,33 @@ export class Surface implements GameObject {
     this.asset.material = grayMaterial;
   }
 
-  setHeight(height: number) {
-    this.height = height;
+  setTop(top: number) {
+    this.top = top;
     const geometry = (this.asset.geometry as Geometry);
     const vertices = geometry.vertices;
     for (const index of [0, 1, 4, 5]) {
-      vertices[index].y = Cell.size / 2 + height * Surface.heightUnit;
+      vertices[index].y = Cell.size / 2 + top * Surface.heightUnit;
     }
     geometry.verticesNeedUpdate = true;
   }
 
   addHeight(height: number) {
-    this.setHeight(this.height + height);
+    this.setTop(this.top + height);
+  }
+
+  setPosition(y: number) {
+    const delta = y - this.top;
+    this.top = y;
+    const geometry = (this.asset.geometry as Geometry);
+    const vertices = geometry.vertices;
+    for (const vertex of vertices) {
+      vertex.y += delta * Surface.heightUnit;
+    }
+    geometry.verticesNeedUpdate = true;
+  }
+
+  move(y: number) {
+    this.setPosition(this.top + y);
   }
 }
 

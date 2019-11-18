@@ -19,12 +19,11 @@ export class Controller {
     this.mouse = new Vector2();
 
     window.addEventListener('wheel', event => {
-      this.renderer.scene.rotation.z += event.deltaX * Math.PI / 1000;
+      this.renderer.scene.rotation.y += event.deltaX * Math.PI / 1000;
       this.renderer.scene.rotation.x += event.deltaY * Math.PI / 1000;
     });
 
     window.addEventListener('keydown', event => {
-      console.log('key', event.key);
       // change camera
       if (event.key === 'c') {
         const index = (renderer.cameras.indexOf(renderer.camera) + 1) % renderer.cameras.length;
@@ -35,13 +34,25 @@ export class Controller {
         if (this.cellSelector.value) {
           this.surfaceSelector.select(this.cellSelector.value.newSurface());
         }
+
+      // adjust surface position or size
       } else if (event.key === 'ArrowUp') {
-        if (this.surfaceSelector.value) {
-          this.surfaceSelector.value.addHeight(1);
+        const surface = this.surfaceSelector.value;
+        if (surface) {
+          if (event.shiftKey) {
+            surface.addHeight(1);
+          } else {
+            surface.move(1);
+          }
         }
       } else if (event.key === 'ArrowDown') {
-        if (this.surfaceSelector.value) {
-          this.surfaceSelector.value.addHeight(-1);
+        const surface = this.surfaceSelector.value;
+        if (surface) {
+          if (event.shiftKey) {
+            surface.addHeight(-1);
+          } else {
+            surface.move(-1);
+          }
         }
       }
     });
