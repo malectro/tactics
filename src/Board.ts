@@ -39,8 +39,11 @@ export class Board implements Sized, GameObject {
 
 export class Cell implements GameObject {
   static size = 10;
+  static zeroMaterial = new MeshBasicMaterial({color: 0x000000, opacity: 0.5, transparent: true});
+  static selectedMaterial = new MeshBasicMaterial({color: 0x333333, opacity: 0.5, transparent: true});
+
   surfaces: Surface[] = [];
-  asset: Mesh = new Mesh(boxGeometry, grayMaterial);
+  asset: Mesh = new Mesh(boxGeometry, Cell.zeroMaterial);
 
   clear() {
     this.surfaces = [];
@@ -53,6 +56,37 @@ export class Cell implements GameObject {
   }
 
   select() {
+    if (!this.hasSurfaces()) {
+      this.asset.material = Cell.selectedMaterial;
+    }
+  }
+
+  deselect() {
+    if (!this.hasSurfaces()) {
+      this.asset.material = Cell.zeroMaterial;
+    }
+  }
+
+  newSurface(): Surface {
+    const newSurface = new Surface();
+    this.surfaces.push(
+      newSurface,
+    );
+    this.asset.add(newSurface.asset);
+    this.asset.material = clearMaterial;
+    return newSurface;
+  }
+
+  hasSurfaces(): boolean {
+    return this.surfaces.length > 0;
+  }
+}
+
+export class Surface implements GameObject {
+  height: number = 0;
+  asset: Mesh = new Mesh(boxGeometry, grayMaterial);
+
+  select() {
     this.asset.material = selectedMaterial;
   }
 
@@ -61,16 +95,12 @@ export class Cell implements GameObject {
   }
 }
 
-class Surface implements GameObject {
-  height: number = 0;
-  asset: Mesh = new Mesh(boxGeometry, grayMaterial);
-}
-
 const boxGeometry = new BoxBufferGeometry(
   Cell.size - 1,
   Cell.size - 1,
   Cell.size - 1,
 );
+const blackMaterial = new MeshBasicMaterial({color: 0x000000});
 const grayMaterial = new MeshBasicMaterial({color: 0x555555});
-const clearMaterial = new MeshBasicMaterial({color: 0x000000, opacity: 0.0});
+const clearMaterial = new MeshBasicMaterial({color: 0x000000, visible: false});
 const selectedMaterial = new MeshBasicMaterial({color: 0x999999});

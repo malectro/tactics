@@ -41,14 +41,11 @@ export class Renderer {
     ];
     this.camera = this.cameras[0];
 
-    this.webglRenderer = new WebGLRenderer();
+    this.webglRenderer = new WebGLRenderer({alpha: true});
     this.webglRenderer.setPixelRatio( window.devicePixelRatio );
     this.webglRenderer.setSize(window.innerWidth, window.innerHeight);
 
     this.scene.rotation.set(Math.PI / 8 + Math.PI / 2, 0, Math.PI / 4);
-
-    //const controller = new Controller(scene);
-
     this.animate = this.animate.bind(this);
   }
 

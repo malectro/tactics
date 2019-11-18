@@ -1,7 +1,7 @@
 import {Raycaster, Vector2, MeshBasicMaterial} from 'three';
 
 import {Renderer} from './Renderer';
-import {Board, Cell} from './Board';
+import {Board, Cell, Surface} from './Board';
 
 
 export class Controller {
@@ -9,14 +9,14 @@ export class Controller {
   board: Board;
   raycaster: Raycaster;
   mouse: Vector2;
-  selectedCell: Cell | null;
+  cellSelector: Selector<Cell> = new Selector();
+  surfaceSelector: Selector<Surface> = new Selector();
 
   constructor(renderer: Renderer, board: Board) {
     this.renderer = renderer;
     this.board = board;
     this.raycaster = new Raycaster();
     this.mouse = new Vector2();
-    this.selectedCell = null;
 
     window.addEventListener('wheel', event => {
       this.renderer.scene.rotation.z += event.deltaX * Math.PI / 1000;
@@ -24,9 +24,16 @@ export class Controller {
     });
 
     window.addEventListener('keydown', event => {
+      // change camera
       if (event.key === 'c') {
         const index = (renderer.cameras.indexOf(renderer.camera) + 1) % renderer.cameras.length;
         renderer.camera = renderer.cameras[index];
+
+      // new surface
+      } else if (event.key === 'n') {
+        if (this.cellSelector.value) {
+          this.surfaceSelector.select(this.cellSelector.value.newSurface());
+        }
       }
     });
 
@@ -36,24 +43,38 @@ export class Controller {
         -(event.clientY / window.innerHeight) * 2 + 1,
       );
       this.raycaster.setFromCamera(this.mouse, this.renderer.camera);
-      const intersector1 = this.raycaster.intersectObjects(this.board.asset.children)[0];
-      // TODO (kyle): maybe my GameObjects should have their assets reference themselves?
-      const selectedCell = intersector1 ? this.board.cells.find(cell => cell.asset === intersector1.object): null;
+
+      const selectedCell = this.cellSelector.value;
       if (selectedCell) {
-        if (this.selectedCell) {
-          this.selectedCell.deselect();
-        }
-        if (selectedCell === this.selectedCell) {
-          this.selectedCell = null;
-        } else {
-          selectedCell.select();
-          this.selectedCell = selectedCell;
+        const intersectedSurface = this.raycaster.intersectObjects(selectedCell.asset.children)[0];
+        if (intersectedSurface) {
+          this.surfaceSelector.select(selectedCell.surfaces.find(surface => surface.asset === intersectedSurface.object));
+          return;
         }
       }
-      console.log('cell', this.selectedCell);
 
+      const intersector1 = this.raycaster.intersectObjects(this.board.asset.children)[0];
+      // TODO (kyle): maybe my GameObjects should have their assets reference themselves?
+      const nextSelectedCell = intersector1 ? this.board.cells.find(cell => cell.asset === intersector1.object): null;
+      this.cellSelector.select(nextSelectedCell);
     });
   }
 }
 
-const selectedMaterial = new MeshBasicMaterial({color: 0x999999});
+
+interface Selectable {
+  select();
+  deselect();
+}
+
+class Selector<V extends Selectable> {
+  value: V | null;
+
+  select(value: V | null) {
+    if (this.value) {
+      this.value.deselect();
+    }
+    value.select();
+    this.value = value;
+  }
+}
