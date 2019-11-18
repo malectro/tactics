@@ -24,6 +24,7 @@ export class Controller {
     });
 
     window.addEventListener('keydown', event => {
+      console.log('key', event.key);
       // change camera
       if (event.key === 'c') {
         const index = (renderer.cameras.indexOf(renderer.camera) + 1) % renderer.cameras.length;
@@ -33,6 +34,14 @@ export class Controller {
       } else if (event.key === 'n') {
         if (this.cellSelector.value) {
           this.surfaceSelector.select(this.cellSelector.value.newSurface());
+        }
+      } else if (event.key === 'ArrowUp') {
+        if (this.surfaceSelector.value) {
+          this.surfaceSelector.value.addHeight(1);
+        }
+      } else if (event.key === 'ArrowDown') {
+        if (this.surfaceSelector.value) {
+          this.surfaceSelector.value.addHeight(-1);
         }
       }
     });

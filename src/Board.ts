@@ -2,6 +2,8 @@ import {
   Group,
   Mesh,
   Object3D,
+  Geometry,
+  BoxGeometry,
   BoxBufferGeometry,
   MeshBasicMaterial,
 } from 'three';
@@ -29,8 +31,8 @@ export class Board implements Sized, GameObject {
         this.asset.add(cell.asset);
         cell.asset.position.set(
           (x - size.x / 2) * Cell.size,
-          (y - size.y / 2) * Cell.size,
           0,
+          (y - size.y / 2) * Cell.size,
         );
       }
     }
@@ -83,8 +85,12 @@ export class Cell implements GameObject {
 }
 
 export class Surface implements GameObject {
+  static heightUnit = 1;
+
   height: number = 0;
-  asset: Mesh = new Mesh(boxGeometry, grayMaterial);
+  asset: Mesh = new Mesh(new BoxGeometry(
+    Cell.size, Cell.size, Cell.size,
+  ), grayMaterial);
 
   select() {
     this.asset.material = selectedMaterial;
@@ -92,6 +98,20 @@ export class Surface implements GameObject {
 
   deselect() {
     this.asset.material = grayMaterial;
+  }
+
+  setHeight(height: number) {
+    this.height = height;
+    const geometry = (this.asset.geometry as Geometry);
+    const vertices = geometry.vertices;
+    for (const index of [0, 1, 4, 5]) {
+      vertices[index].y = Cell.size / 2 + height * Surface.heightUnit;
+    }
+    geometry.verticesNeedUpdate = true;
+  }
+
+  addHeight(height: number) {
+    this.setHeight(this.height + height);
   }
 }
 
