@@ -84,16 +84,29 @@ export class Cell implements GameObject {
   }
 }
 
+interface SurfaceJSON {
+  top: number;
+  bottom: number;
+}
+
 export class Surface implements GameObject {
   static heightUnit = 1;
 
   top: number = 0;
+  bottom: number = -Cell.size;
   asset: Mesh = new Mesh(new BoxGeometry(
     Cell.size, Cell.size, Cell.size,
   ), grayMaterial);
 
-  toJSON() {
-    
+  static fromJSON(json: SurfaceJSON) {
+    const surface = new Surface();
+  }
+
+  toJSON(): SurfaceJSON {
+    return {
+      top: this.top,
+      bottom: this.bottom,
+    };
   }
 
   select() {
@@ -119,18 +132,13 @@ export class Surface implements GameObject {
   }
 
   setPosition(y: number) {
-    const delta = y - this.top;
-    this.top = y;
-    const geometry = (this.asset.geometry as Geometry);
-    const vertices = geometry.vertices;
-    for (const vertex of vertices) {
-      vertex.y += delta * Surface.heightUnit;
-    }
-    geometry.verticesNeedUpdate = true;
+    const delta = y - this.bottom;
+    this.bottom = y;
+    this.asset.position.y += delta * Surface.heightUnit;
   }
 
   move(y: number) {
-    this.setPosition(this.top + y);
+    this.setPosition(this.bottom + y);
   }
 }
 
