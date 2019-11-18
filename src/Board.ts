@@ -43,6 +43,8 @@ export class Board implements Sized, GameObject {
     const board = new Board();
     board.size = size;
 
+    console.log('json', json);
+
     for (const row of json.cells) {
       for (const cell of row) {
         board.cells.push(Cell.fromJSON(cell));
@@ -55,8 +57,14 @@ export class Board implements Sized, GameObject {
   }
 
   toJSON(): BoardJSON {
+    const cells = [];
+    for (const x of range(this.size.x)) {
+      cells.push(
+        this.cells.slice(x * this.size.y, (x + 1) * this.size.y),
+      );
+    }
     return {
-      cells: this.cells.flat(),
+      cells,
     };
   }
 
@@ -91,7 +99,9 @@ export class Cell implements GameObject {
 
   static fromJSON(json: CellJSON): Cell {
     const cell = new Cell();
-    cell.surfaces.push(...json.surfaces.map(Surface.fromJSON));
+    for (const surface of json.surfaces) {
+      cell.addSurface(Surface.fromJSON(surface));
+    }
     return cell;
   }
 
@@ -123,13 +133,17 @@ export class Cell implements GameObject {
     }
   }
 
+  addSurface(surface: Surface) {
+    this.surfaces.push(
+      surface,
+    );
+    this.asset.add(surface.asset);
+    this.asset.material = clearMaterial;
+  }
+
   newSurface(): Surface {
     const newSurface = new Surface();
-    this.surfaces.push(
-      newSurface,
-    );
-    this.asset.add(newSurface.asset);
-    this.asset.material = clearMaterial;
+    this.addSurface(newSurface);
     return newSurface;
   }
 

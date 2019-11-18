@@ -62,7 +62,9 @@ export class Controller {
 
       // load
       } else if (event.key === 'l') {
+        this.renderer.scene.remove(this.board.asset);
         this.board = Board.fromJSON(JSON.parse(localStorage.board));
+        this.renderer.scene.add(this.board.asset);
       }
     });
 
