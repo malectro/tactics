@@ -12,18 +12,56 @@ import {Sized, Size} from './vector2d';
 import {GameObject} from './GameObject';
 import {range} from './utils/iterators';
 
-export class Board implements Sized, GameObject {
-  size: Size;
-  cells: Cell[];
-  asset: Group;
 
-  constructor(size: Size) {
-    this.asset = new Group();
-    this.size = {x: size.x, y: size.y};
-    this.cells = Array(size.x * size.y)
+interface BoardJSON {
+  cells: CellJSON[][];
+}
+
+export class Board implements Sized, GameObject {
+  size: Size = {x: 0, y: 0};
+  cells: Cell[] = [];
+  asset: Group = new Group();
+
+  static createBlank(size: Size): Board {
+    const board = new Board();
+
+    board.size = {x: size.x, y: size.y};
+    board.cells = Array(size.x * size.y)
       .fill(0)
       .map(() => new Cell());
+    board.positionCells();
 
+    return board;
+  }
+
+  static fromJSON(json: BoardJSON): Board {
+    const size = {
+      x: json.cells.length,
+      y: json.cells[0].length,
+    };
+
+    const board = new Board();
+    board.size = size;
+
+    for (const row of json.cells) {
+      for (const cell of row) {
+        board.cells.push(Cell.fromJSON(cell));
+      }
+    }
+
+    board.positionCells();
+
+    return board;
+  }
+
+  toJSON(): BoardJSON {
+    return {
+      cells: this.cells.flat(),
+    };
+  }
+
+  positionCells() {
+    const size = this.size;
     for (const x of range(size.x)) {
       for (const y of range(size.y)) {
         const cell = this.cells[x * size.y + y];
@@ -39,6 +77,10 @@ export class Board implements Sized, GameObject {
   }
 }
 
+interface CellJSON {
+  surfaces: SurfaceJSON[];
+}
+
 export class Cell implements GameObject {
   static size = 10;
   static zeroMaterial = new MeshBasicMaterial({color: 0x000000, opacity: 0.5, transparent: true});
@@ -46,6 +88,18 @@ export class Cell implements GameObject {
 
   surfaces: Surface[] = [];
   asset: Mesh = new Mesh(boxGeometry, Cell.zeroMaterial);
+
+  static fromJSON(json: CellJSON): Cell {
+    const cell = new Cell();
+    cell.surfaces.push(...json.surfaces.map(Surface.fromJSON));
+    return cell;
+  }
+
+  toJSON(): CellJSON {
+    return {
+      surfaces: this.surfaces,
+    };
+  }
 
   clear() {
     this.surfaces = [];
@@ -98,8 +152,11 @@ export class Surface implements GameObject {
     Cell.size, Cell.size, Cell.size,
   ), grayMaterial);
 
-  static fromJSON(json: SurfaceJSON) {
+  static fromJSON(json: SurfaceJSON): Surface {
     const surface = new Surface();
+    surface.setTop(json.top);
+    surface.setPosition(json.bottom);
+    return surface;
   }
 
   toJSON(): SurfaceJSON {

@@ -4,7 +4,7 @@ import {Renderer} from './Renderer'
 
 
 const renderer = new Renderer();
-const board = new Board({x: 10, y: 10});
+const board = Board.createBlank({x: 10, y: 10});
 
 const controller = new Controller(renderer, board);
 

@@ -54,6 +54,15 @@ export class Controller {
             surface.move(-1);
           }
         }
+
+      // save
+      } else if (event.key === 's') {
+        localStorage.board = JSON.stringify(this.board, null, '  ');
+        console.log('board', localStorage.board);
+
+      // load
+      } else if (event.key === 'l') {
+        this.board = Board.fromJSON(JSON.parse(localStorage.board));
       }
     });
 
