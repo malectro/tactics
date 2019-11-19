@@ -6,6 +6,8 @@ import {
   BoxGeometry,
   BoxBufferGeometry,
   MeshBasicMaterial,
+  MeshNormalMaterial,
+  MeshDepthMaterial,
 } from 'three';
 
 import {Sized, Size} from './vector2d';
@@ -115,7 +117,7 @@ export class Cell implements GameObject {
     this.surfaces = [];
     const parent = this.asset.parent;
     parent.remove(this.asset);
-    const newMesh = new Mesh(boxGeometry, grayMaterial);
+    const newMesh = new Mesh(boxGeometry, Cell.zeroMaterial);
     newMesh.position = this.asset.position;
     this.asset = newMesh;
     parent.add(newMesh);
@@ -161,12 +163,14 @@ interface SurfaceJSON {
 
 export class Surface implements GameObject {
   static heightUnit = 1;
+  static defaultMaterial = new MeshNormalMaterial();
+  static selectedMaterial = new MeshNormalMaterial({wireframe: true});
 
   top: number = 0;
   bottom: number = -Cell.size;
   asset: Mesh = new Mesh(new BoxGeometry(
     Cell.size, Cell.size, Cell.size,
-  ), grayMaterial);
+  ), Surface.defaultMaterial);
 
   static fromJSON(json: SurfaceJSON): Surface {
     const surface = new Surface();
@@ -183,11 +187,11 @@ export class Surface implements GameObject {
   }
 
   select() {
-    this.asset.material = selectedMaterial;
+    this.asset.material = Surface.selectedMaterial;
   }
 
   deselect() {
-    this.asset.material = grayMaterial;
+    this.asset.material = Surface.defaultMaterial;
   }
 
   setTop(top: number) {
