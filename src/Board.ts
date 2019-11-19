@@ -122,15 +122,11 @@ export class Cell implements GameObject {
   }
 
   select() {
-    if (!this.hasSurfaces()) {
       this.asset.material = Cell.selectedMaterial;
-    }
   }
 
   deselect() {
-    if (!this.hasSurfaces()) {
       this.asset.material = Cell.zeroMaterial;
-    }
   }
 
   addSurface(surface: Surface) {
@@ -138,13 +134,19 @@ export class Cell implements GameObject {
       surface,
     );
     this.asset.add(surface.asset);
-    this.asset.material = clearMaterial;
+    //this.asset.material = clearMaterial;
   }
 
   newSurface(): Surface {
     const newSurface = new Surface();
     this.addSurface(newSurface);
     return newSurface;
+  }
+
+  removeSurface(surface: Surface): Surface {
+    this.surfaces = this.surfaces.filter(s => s !== surface);
+    this.asset.remove(surface.asset);
+    return surface;
   }
 
   hasSurfaces(): boolean {

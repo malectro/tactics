@@ -35,6 +35,13 @@ export class Controller {
           this.surfaceSelector.select(this.cellSelector.value.newSurface());
         }
 
+      } else if (event.key === 'Backspace') {
+        event.preventDefault();
+        const surface = this.surfaceSelector.value;
+        if (surface) {
+          this.cellSelector.value.removeSurface(surface);
+        }
+
       // adjust surface position or size
       } else if (event.key === 'ArrowUp') {
         const surface = this.surfaceSelector.value;
