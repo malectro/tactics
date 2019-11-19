@@ -1,5 +1,6 @@
 import {Raycaster, Vector2, MeshBasicMaterial} from 'three';
 
+import {GameAsset} from './GameObject';
 import {Renderer} from './Renderer';
 import {Board, Cell, Surface} from './Board';
 
@@ -75,26 +76,26 @@ export class Controller {
       }
     });
 
-    window.addEventListener('mousedown', event => {
+    window.addEventListener('pointerdown', event => {
       this.mouse.set(
         (event.clientX / window.innerWidth) * 2 - 1,
         -(event.clientY / window.innerHeight) * 2 + 1,
       );
       this.raycaster.setFromCamera(this.mouse, this.renderer.camera);
 
-      const selectedCell = this.cellSelector.value;
-      if (selectedCell) {
-        const intersectedSurface = this.raycaster.intersectObjects(selectedCell.asset.children)[0];
-        if (intersectedSurface) {
-          this.surfaceSelector.select(selectedCell.surfaces.find(surface => surface.asset === intersectedSurface.object));
-          return;
+      const cellsAndSurfaces = this.board.asset.children.map(cell => [cell].concat(cell.children)).flat();
+      const intersectors = this.raycaster.intersectObjects(cellsAndSurfaces);
+      if (intersectors.length > 0) {
+        const intersector1 = intersectors[0];
+        const gameObject = (intersector1.object as GameAsset).gameObject;
+        if (gameObject instanceof Surface) {
+          this.surfaceSelector.select(gameObject);
+          this.cellSelector.select(gameObject.parent);
+        } else if (gameObject instanceof Cell) {
+          this.surfaceSelector.select(null);
+          this.cellSelector.select(gameObject);
         }
       }
-
-      const intersector1 = this.raycaster.intersectObjects(this.board.asset.children)[0];
-      // TODO (kyle): maybe my GameObjects should have their assets reference themselves?
-      const nextSelectedCell = intersector1 ? this.board.cells.find(cell => cell.asset === intersector1.object): null;
-      this.cellSelector.select(nextSelectedCell);
     });
   }
 }
@@ -112,7 +113,9 @@ class Selector<V extends Selectable> {
     if (this.value) {
       this.value.deselect();
     }
-    value.select();
+    if (value !== null) {
+      value.select();
+    }
     this.value = value;
   }
 }

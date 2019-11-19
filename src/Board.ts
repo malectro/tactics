@@ -11,7 +11,7 @@ import {
 } from 'three';
 
 import {Sized, Size} from './vector2d';
-import {GameObject} from './GameObject';
+import {GameObject, GameMesh, GameGroup} from './GameObject';
 import {range} from './utils/iterators';
 
 
@@ -22,7 +22,7 @@ interface BoardJSON {
 export class Board implements Sized, GameObject {
   size: Size = {x: 0, y: 0};
   cells: Cell[] = [];
-  asset: Group = new Group();
+  asset: GameGroup = new GameGroup(this);
 
   static createBlank(size: Size): Board {
     const board = new Board();
@@ -97,7 +97,7 @@ export class Cell implements GameObject {
   static selectedMaterial = new MeshBasicMaterial({color: 0x333333, opacity: 0.5, transparent: true});
 
   surfaces: Surface[] = [];
-  asset: Mesh = new Mesh(boxGeometry, Cell.zeroMaterial);
+  asset: GameMesh = new GameMesh(this, boxGeometry, Cell.zeroMaterial);
 
   static fromJSON(json: CellJSON): Cell {
     const cell = new Cell();
@@ -117,7 +117,7 @@ export class Cell implements GameObject {
     this.surfaces = [];
     const parent = this.asset.parent;
     parent.remove(this.asset);
-    const newMesh = new Mesh(boxGeometry, Cell.zeroMaterial);
+    const newMesh = new GameMesh(this, boxGeometry, Cell.zeroMaterial);
     newMesh.position = this.asset.position;
     this.asset = newMesh;
     parent.add(newMesh);
@@ -132,6 +132,11 @@ export class Cell implements GameObject {
   }
 
   addSurface(surface: Surface) {
+    if (surface.parent) {
+      throw new Error('Cannot add a surface that has a parent.');
+    }
+
+    surface.parent = this;
     this.surfaces.push(
       surface,
     );
@@ -166,9 +171,10 @@ export class Surface implements GameObject {
   static defaultMaterial = new MeshNormalMaterial();
   static selectedMaterial = new MeshNormalMaterial({wireframe: true});
 
+  parent: Cell;
   top: number = 0;
   bottom: number = -Cell.size;
-  asset: Mesh = new Mesh(new BoxGeometry(
+  asset: GameMesh = new GameMesh(this, new BoxGeometry(
     Cell.size, Cell.size, Cell.size,
   ), Surface.defaultMaterial);
 
