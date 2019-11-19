@@ -1,0 +1,700 @@
+{
+  "cells": [
+    [
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 6,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 11,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 12,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 6,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 21,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 7,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 30,
+            "bottom": -10
+          },
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 4,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          },
+          {
+            "top": 0,
+            "bottom": 20
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 4,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": 18
+          },
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 4,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": 20
+          },
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 30,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 8,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 30,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      },
+      {
+        "surfaces": [
+          {
+            "top": 0,
+            "bottom": -10
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      }
+    ],
+    [
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      },
+      {
+        "surfaces": []
+      }
+    ]
+  ]
+}
