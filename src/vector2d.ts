@@ -8,3 +8,7 @@ export interface Size extends Vector2d {};
 export interface Sized {
   size: Vector2d;
 }
+
+export interface Positioned {
+  position: Vector2d;
+}

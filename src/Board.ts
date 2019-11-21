@@ -13,6 +13,7 @@ import {
 import {Sized, Size} from './vector2d';
 import {GameObject, GameMesh, GameGroup} from './GameObject';
 import {range} from './utils/iterators';
+import {Soldier} from './Character';
 
 
 interface BoardJSON {
@@ -82,6 +83,18 @@ export class Board implements Sized, GameObject {
           0,
           (y - size.y / 2) * Cell.size,
         );
+      }
+    }
+  }
+
+  getRandomEmptySurface() {
+    const randomCells = this.cells.slice().sort(() => Math.random() - 0.5);
+    for (const cell of randomCells) {
+      const randomSurfaces = cell.surfaces.slice().sort(() => Math.random() - 0.5);
+      for (const surface of randomSurfaces) {
+        if (!surface.soldier) {
+          return surface;
+        }
       }
     }
   }
@@ -177,6 +190,8 @@ export class Surface implements GameObject {
   asset: GameMesh = new GameMesh(this, new BoxGeometry(
     Cell.size, Cell.size, Cell.size,
   ), Surface.defaultMaterial);
+
+  soldier: Soldier;
 
   static fromJSON(json: SurfaceJSON): Surface {
     const surface = new Surface();
