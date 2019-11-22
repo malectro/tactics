@@ -1,5 +1,5 @@
 import {Board} from './Board';
-import {Controller} from './Controller';
+import {BoardDesignerController, BoardDesignerControllerAdapter} from './Controller';
 import {Renderer} from './Renderer'
 import {Character, Soldier} from './Character';
 import {Battle} from './Battle';
@@ -13,7 +13,8 @@ async function run() {
 
   const board = Board.fromJSON(boardData);
 
-  const controller = new Controller(renderer, board);
+  const controller = new BoardDesignerControllerAdapter(new BoardDesignerController(renderer, board));
+  controller.setUp();
 
   const character = new Character({
     name: 'Kyle',
