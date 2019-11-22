@@ -15,7 +15,6 @@ import {GameObject, GameMesh, GameGroup} from './GameObject';
 import {range} from './utils/iterators';
 import {Soldier} from './Character';
 
-
 interface BoardJSON {
   cells: CellJSON[][];
 }
@@ -62,9 +61,7 @@ export class Board implements Sized, GameObject {
   toJSON(): BoardJSON {
     const cells = [];
     for (const x of range(this.size.x)) {
-      cells.push(
-        this.cells.slice(x * this.size.y, (x + 1) * this.size.y),
-      );
+      cells.push(this.cells.slice(x * this.size.y, (x + 1) * this.size.y));
     }
     return {
       cells,
@@ -87,10 +84,18 @@ export class Board implements Sized, GameObject {
     }
   }
 
+  *getSurfaces(): IterableIterator<Surface> {
+    for (const cell of this.cells) {
+      yield* cell.surfaces;
+    }
+  }
+
   getRandomEmptySurface() {
     const randomCells = this.cells.slice().sort(() => Math.random() - 0.5);
     for (const cell of randomCells) {
-      const randomSurfaces = cell.surfaces.slice().sort(() => Math.random() - 0.5);
+      const randomSurfaces = cell.surfaces
+        .slice()
+        .sort(() => Math.random() - 0.5);
       for (const surface of randomSurfaces) {
         if (!surface.soldier) {
           return surface;
@@ -106,8 +111,16 @@ interface CellJSON {
 
 export class Cell implements GameObject {
   static size = 10;
-  static zeroMaterial = new MeshBasicMaterial({color: 0x000000, opacity: 0.5, transparent: true});
-  static selectedMaterial = new MeshBasicMaterial({color: 0x333333, opacity: 0.5, transparent: true});
+  static zeroMaterial = new MeshBasicMaterial({
+    color: 0x000000,
+    opacity: 0.5,
+    transparent: true,
+  });
+  static selectedMaterial = new MeshBasicMaterial({
+    color: 0x333333,
+    opacity: 0.5,
+    transparent: true,
+  });
 
   surfaces: Surface[] = [];
   asset: GameMesh = new GameMesh(this, boxGeometry, Cell.zeroMaterial);
@@ -137,11 +150,11 @@ export class Cell implements GameObject {
   }
 
   select() {
-      this.asset.material = Cell.selectedMaterial;
+    this.asset.material = Cell.selectedMaterial;
   }
 
   deselect() {
-      this.asset.material = Cell.zeroMaterial;
+    this.asset.material = Cell.zeroMaterial;
   }
 
   addSurface(surface: Surface) {
@@ -150,9 +163,7 @@ export class Cell implements GameObject {
     }
 
     surface.parent = this;
-    this.surfaces.push(
-      surface,
-    );
+    this.surfaces.push(surface);
     this.asset.add(surface.asset);
     //this.asset.material = clearMaterial;
   }
@@ -185,11 +196,13 @@ export class Surface implements GameObject {
   static selectedMaterial = new MeshNormalMaterial({wireframe: true});
 
   parent: Cell;
-  top: number = 0;
-  bottom: number = -Cell.size;
-  asset: GameMesh = new GameMesh(this, new BoxGeometry(
-    Cell.size, Cell.size, Cell.size,
-  ), Surface.defaultMaterial);
+  top: number = 0; // TODO (kyle): make this accurate or make it `height`
+  bottom: number = -Cell.size / 2 / Surface.heightUnit;
+  asset: GameMesh = new GameMesh(
+    this,
+    new BoxGeometry(Cell.size, Cell.size, Cell.size),
+    Surface.defaultMaterial,
+  );
 
   soldier: Soldier;
 
@@ -217,12 +230,16 @@ export class Surface implements GameObject {
 
   setTop(top: number) {
     this.top = top;
-    const geometry = (this.asset.geometry as Geometry);
+    const geometry = this.asset.geometry as Geometry;
     const vertices = geometry.vertices;
     for (const index of [0, 1, 4, 5]) {
-      vertices[index].y = Cell.size / 2 + top * Surface.heightUnit;
+      vertices[index].y = (top - this.bottom) * Surface.heightUnit - Cell.size / 2;
     }
     geometry.verticesNeedUpdate = true;
+  }
+
+  getHeight(): number {
+    return this.top - this.bottom;
   }
 
   addHeight(height: number) {
@@ -232,7 +249,7 @@ export class Surface implements GameObject {
   setPosition(y: number) {
     const delta = y - this.bottom;
     this.bottom = y;
-    this.asset.position.y += delta * Surface.heightUnit;
+    this.asset.position.y = this.bottom * Surface.heightUnit + Cell.size / 2;
   }
 
   move(y: number) {

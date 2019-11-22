@@ -6,7 +6,6 @@ import {Board} from '../Board';
 
 export interface Controller {
   renderer: Renderer;
-  board: Board;
   raycaster: Raycaster;
   mouse: Vector2;
 }

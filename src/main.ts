@@ -1,6 +1,7 @@
 import {Board} from './Board';
 import {ControllerManager} from './controllers/Controller';
 import {BoardDesignerController, BoardDesignerControllerAdapter} from './controllers/BoardDesignerController';
+import {BattleController, BattleControllerAdapter} from './controllers/BattleController';
 import {CameraController, CameraControllerAdapter} from './controllers/CameraController';
 import {Renderer} from './Renderer'
 import {Character, Soldier} from './Character';
@@ -15,13 +16,6 @@ async function run() {
 
   const board = Board.fromJSON(boardData);
 
-  const controllerManager = new ControllerManager();
-  const designerController = new BoardDesignerControllerAdapter(new BoardDesignerController(renderer, board));
-  const cameraController = new CameraControllerAdapter(new CameraController(renderer, board));
-
-  controllerManager.add(designerController);
-  controllerManager.add(cameraController);
-
   const character = new Character({
     name: 'Kyle',
     experience: 0,
@@ -33,6 +27,14 @@ async function run() {
 
   const battle = new Battle(board);
   battle.placeSoldier(soldier, board.getRandomEmptySurface());
+
+  const controllerManager = new ControllerManager();
+  //const designerController = new BoardDesignerControllerAdapter(new BoardDesignerController(renderer, board));
+  const battleController = new BattleControllerAdapter(new BattleController(renderer, battle));
+  const cameraController = new CameraControllerAdapter(new CameraController(renderer, board));
+
+  controllerManager.add(battleController);
+  controllerManager.add(cameraController);
 
 
   renderer.scene.add(board.asset);

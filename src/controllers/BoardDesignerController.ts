@@ -4,6 +4,7 @@ import {Controller, ControllerAdapter} from './Controller';
 import {GameAsset} from '../GameObject';
 import {Renderer} from '../Renderer';
 import {Board, Cell, Surface} from '../Board';
+import {Selector} from '../utils/Selector';
 
 
 export class BoardDesignerControllerAdapter implements ControllerAdapter {
@@ -131,24 +132,5 @@ export class BoardDesignerController implements Controller {
         this.cellSelector.select(gameObject);
       }
     }
-  }
-}
-
-interface Selectable {
-  select();
-  deselect();
-}
-
-class Selector<V extends Selectable> {
-  value: V | null;
-
-  select(value: V | null) {
-    if (this.value) {
-      this.value.deselect();
-    }
-    if (value !== null) {
-      value.select();
-    }
-    this.value = value;
   }
 }

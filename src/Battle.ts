@@ -1,6 +1,6 @@
+import {GameAsset} from './GameObject';
 import {Board, Surface} from './Board';
 import {Soldier} from './Character';
-
 
 export class Battle {
   soldiers: Set<Soldier> = new Set();
@@ -13,9 +13,18 @@ export class Battle {
     soldier.surface = surface;
     soldier.asset.position.set(
       surface.parent.asset.position.x,
-      surface.asset.position.y + 10,
+      surface.asset.position.y + 5 + (surface.top * Surface.heightUnit),
       surface.parent.asset.position.z,
     );
     this.board.asset.add(soldier.asset);
+  }
+
+  *getSelectableAssets(): IterableIterator<GameAsset> {
+    for (const surface of this.board.getSurfaces()) {
+      yield surface.asset;
+    }
+    for (const soldier of this.soldiers) {
+      yield soldier.asset;
+    }
   }
 }

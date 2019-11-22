@@ -39,6 +39,7 @@ export class Character implements CharacterData {
 }
 
 export class Soldier implements GameObject {
+  static selectedMaterial = new MeshNormalMaterial({wireframe: true});
   static material = new MeshNormalMaterial();
   static geometry = new BoxBufferGeometry(2, 2, 2);
 
@@ -54,5 +55,13 @@ export class Soldier implements GameObject {
   constructor(character: Character) {
     this.character = character;
     this.hp = character.getMaxHp();
+  }
+
+  select() {
+    this.asset.material = Soldier.selectedMaterial;
+  }
+
+  deselect() {
+    this.asset.material = Soldier.material;
   }
 }
