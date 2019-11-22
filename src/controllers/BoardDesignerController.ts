@@ -1,15 +1,10 @@
 import {Raycaster, Vector2, MeshBasicMaterial} from 'three';
 
-import {GameAsset} from './GameObject';
-import {Renderer} from './Renderer';
-import {Board, Cell, Surface} from './Board';
+import {Controller} from './Controller';
+import {GameAsset} from '../GameObject';
+import {Renderer} from '../Renderer';
+import {Board, Cell, Surface} from '../Board';
 
-interface Controller {
-  renderer: Renderer;
-  board: Board;
-  raycaster: Raycaster;
-  mouse: Vector2;
-}
 
 export class BoardDesignerControllerAdapter {
   constructor(private controller: BoardDesignerController) {}

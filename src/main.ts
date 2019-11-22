@@ -1,5 +1,5 @@
 import {Board} from './Board';
-import {BoardDesignerController, BoardDesignerControllerAdapter} from './Controller';
+import {BoardDesignerController, BoardDesignerControllerAdapter} from './controllers/BoardDesignerController';
 import {Renderer} from './Renderer'
 import {Character, Soldier} from './Character';
 import {Battle} from './Battle';
