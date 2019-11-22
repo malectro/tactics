@@ -1,22 +1,17 @@
 import {Raycaster, Vector2, MeshBasicMaterial} from 'three';
 
-import {Controller} from './Controller';
+import {Controller, ControllerAdapter} from './Controller';
 import {GameAsset} from '../GameObject';
 import {Renderer} from '../Renderer';
 import {Board, Cell, Surface} from '../Board';
 
 
-export class BoardDesignerControllerAdapter {
+export class BoardDesignerControllerAdapter implements ControllerAdapter {
   constructor(private controller: BoardDesignerController) {}
 
   setUp() {
-    window.addEventListener('wheel', event => {
-      this.controller.rotateScene(event.deltaX, event.deltaY);
-    });
-
     const {controller} = this;
     const keys = {
-      c: 'changeCamera',
       n: 'addSurface',
       Backspace: 'removeSurface',
       'ArrowUp+shiftKey': 'incrementSurfacexHeight',
@@ -51,6 +46,10 @@ export class BoardDesignerControllerAdapter {
       );
     });
   }
+
+  cleanUp() {
+    // TODO (kyle): implement
+  }
 }
 
 export class BoardDesignerController implements Controller {
@@ -61,18 +60,6 @@ export class BoardDesignerController implements Controller {
   surfaceSelector: Selector<Surface> = new Selector();
 
   constructor(public renderer: Renderer, public board: Board) {}
-
-  rotateScene(x: number, y: number) {
-    this.renderer.scene.rotation.y += (x * Math.PI) / 1000;
-    this.renderer.scene.rotation.x += (y * Math.PI) / 1000;
-  }
-
-  changeCamera() {
-    const {renderer} = this;
-    const index =
-      (renderer.cameras.indexOf(renderer.camera) + 1) % renderer.cameras.length;
-    renderer.camera = renderer.cameras[index];
-  }
 
   addSurface() {
     if (this.cellSelector.value) {
