@@ -19,6 +19,13 @@ export class BattleControllerAdapter {
         -(event.clientY / window.innerHeight) * 2 + 1,
       );
     });
+
+    window.addEventListener('keydown', event => {
+      if (event.key.startsWith('Arrow')) {
+        event.preventDefault();
+        this.controller.pressArrow(event.key.replace('Arrow', '').toLowerCase() as Direction);
+      }
+    });
   }
 
   cleanUp() {}
@@ -50,4 +57,41 @@ export class BattleController implements Controller {
       }
     }
   }
+
+  pressArrow(direction: Direction) {
+    const soldier = this.soldierSelector.value;
+    if (!soldier) {
+      return;
+    }
+
+    const vector = new Vector2();
+
+    switch (direction) {
+      case 'up':
+        vector.y += 1;
+        break;
+      case 'down':
+        vector.y -= 1;
+        break;
+      case 'left':
+        vector.x -= 1;
+        break;
+      case 'right':
+        vector.x += 1;
+        break;
+    }
+
+    const nextCell = this.battle.board.getCellAt(
+      vector.add(soldier.getPosition())
+    );
+
+    if (nextCell) {
+      const surface = nextCell.surfaces[0];
+      if (surface) {
+        this.battle.moveSoldier(soldier, surface);
+      }
+    }
+  }
 }
+
+type Direction = 'up' | 'down' | 'left' | 'right';

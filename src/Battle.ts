@@ -11,12 +11,15 @@ export class Battle {
     this.soldiers.add(soldier);
     surface.soldier = soldier;
     soldier.surface = surface;
-    soldier.asset.position.set(
-      surface.parent.asset.position.x,
-      surface.asset.position.y + 5 + (surface.top * Surface.heightUnit),
-      surface.parent.asset.position.z,
-    );
+    soldier.alignToSurface(surface);
     this.board.asset.add(soldier.asset);
+  }
+
+  moveSoldier(soldier: Soldier, surface: Surface) {
+    soldier.surface.soldier = null;
+    soldier.surface = surface;
+    surface.soldier = soldier;
+    soldier.alignToSurface(surface);
   }
 
   *getSelectableAssets(): IterableIterator<GameAsset> {

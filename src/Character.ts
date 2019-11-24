@@ -1,4 +1,4 @@
-import {MeshNormalMaterial, BoxBufferGeometry} from 'three';
+import {MeshNormalMaterial, BoxBufferGeometry, Vector2} from 'three';
 
 import {Vector2d} from './vector2d';
 import {GameObject, GameMesh} from './GameObject';
@@ -63,5 +63,17 @@ export class Soldier implements GameObject {
 
   deselect() {
     this.asset.material = Soldier.material;
+  }
+
+  alignToSurface(surface: Surface) {
+    this.asset.position.set(
+      surface.parent.asset.position.x,
+      surface.asset.position.y + 5 + (surface.top * Surface.heightUnit),
+      surface.parent.asset.position.z,
+    );
+  }
+
+  getPosition(): Vector2 {
+    return this.surface?.parent.position;
   }
 }

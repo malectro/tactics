@@ -8,9 +8,10 @@ import {
   MeshBasicMaterial,
   MeshNormalMaterial,
   MeshDepthMaterial,
+  Vector2,
 } from 'three';
 
-import {Sized, Size} from './vector2d';
+import {Sized, Size, Vector2d} from './vector2d';
 import {GameObject, GameMesh, GameGroup} from './GameObject';
 import {range} from './utils/iterators';
 import {Soldier} from './Character';
@@ -30,7 +31,7 @@ export class Board implements Sized, GameObject {
     board.size = {x: size.x, y: size.y};
     board.cells = Array(size.x * size.y)
       .fill(0)
-      .map(() => new Cell());
+      .map((_, i) => new Cell({x: Math.floor(i / size.y), y: i % size.y}));
     board.positionCells();
 
     return board;
@@ -45,11 +46,9 @@ export class Board implements Sized, GameObject {
     const board = new Board();
     board.size = size;
 
-    console.log('json', json);
-
-    for (const row of json.cells) {
-      for (const cell of row) {
-        board.cells.push(Cell.fromJSON(cell));
+    for (const [x, row] of json.cells.entries()) {
+      for (const [y, cell] of row.entries()) {
+        board.cells.push(Cell.fromJSON(cell, {x, y}));
       }
     }
 
@@ -82,6 +81,10 @@ export class Board implements Sized, GameObject {
         );
       }
     }
+  }
+
+  getCellAt(position: Vector2d): Cell | void {
+    return this.cells[position.x * this.size.y + position.y];
   }
 
   *getSurfaces(): IterableIterator<Surface> {
@@ -122,11 +125,16 @@ export class Cell implements GameObject {
     transparent: true,
   });
 
+  position: Vector2 = new Vector2();
   surfaces: Surface[] = [];
   asset: GameMesh = new GameMesh(this, boxGeometry, Cell.zeroMaterial);
 
-  static fromJSON(json: CellJSON): Cell {
-    const cell = new Cell();
+  constructor(position: Vector2d) {
+    this.position.set(position.x, position.y);
+  }
+
+  static fromJSON(json: CellJSON, position: Vector2d): Cell {
+    const cell = new Cell(position);
     for (const surface of json.surfaces) {
       cell.addSurface(Surface.fromJSON(surface));
     }
@@ -233,7 +241,8 @@ export class Surface implements GameObject {
     const geometry = this.asset.geometry as Geometry;
     const vertices = geometry.vertices;
     for (const index of [0, 1, 4, 5]) {
-      vertices[index].y = (top - this.bottom) * Surface.heightUnit - Cell.size / 2;
+      vertices[index].y =
+        (top - this.bottom) * Surface.heightUnit - Cell.size / 2;
     }
     geometry.verticesNeedUpdate = true;
   }
